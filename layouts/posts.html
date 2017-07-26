@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link rel="stylesheet" href=""http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap."">  
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">  
     </head>
     <body ng-app='app'>
         <div ng-controller='PostsCtrl' class='container'>     
-            <h1>Recent Posts</h1>
-            <ul class='list-group'>
-                <li ng-repeat='p in posts' class='list-group-item'>
-                    <strong>@{{ p.username }}</strong>
-                    <span>{{ p.body }}</span>
-                </li>
-            </ul>
-            <input type="text" ng-model='postuser' placeholder="User" class='form-control'/>
+             <input type="text" ng-model='postuser' placeholder="User" class='form-control'/>
             <input type='text' ng-model='postBody' class='form-control' placeholder="Type Post"/>
             <button ng-click='addPost()' class='btn btn-default'>Add Post</button>
+            <h1>Recent Posts</h1>
+            <ul class='list-group'>
+                <li ng-repeat="post in posts | orderBy:'-date' " class='list-group-item'>
+                    <strong>@{{ post.username }}</strong>
+                    <span>{{ post.body }}</span>
+                </li>
+            </ul>
+           
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
       <!--<script>angular.module('app',[])</script>-->
@@ -31,17 +32,22 @@
                     body: 'trying out angular js..'
                 }
             ]*/
-            $http.get('http://localhost:3000/api/posts').success(function(posts){
-                $scope.posts=posts
-            })
+             $http.get('http://localhost:3000/api/posts').then(function(posts){
+                $scope.posts=posts.data
+                })
             $scope.addPost=function(){
                 if($scope.postBody){
-                    $scope.posts.unshift({
+                    $http.post('/api/posts',{
                         username:$scope.postuser,
                         body:$scope.postBody
-                    })
+                    }).then(function(post){
+                        $scope.posts.unshift(post)
                     $scope.postBody=$scope.postuser=null
+                    })
                 }
+                $http.get('http://localhost:3000/api/posts').then(function(posts){
+                $scope.posts=posts.data
+                })
             }
         })
         </script>
