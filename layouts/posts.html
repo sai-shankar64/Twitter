@@ -2,6 +2,8 @@
 <html>
     <head>
       <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">  
+      <link rel="stylesheet" href="/app.css">
+     <title>Twitter</title>
     </head>
     <body ng-app='app'>
         <div ng-controller='PostsCtrl' class='container'>     
@@ -19,10 +21,10 @@
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
       <!--<script>angular.module('app',[])</script>-->
-      <script>
+      <script > 
         var app=angular.module('app',[]);
         app.controller('PostsCtrl',function($scope,$http){
-            /*$scope.posts=[
+           /* $scope.posts=[
                 {
                     username: 'Shankar',
                     body: 'Node rules1'
@@ -50,7 +52,9 @@
                 })
             }
         })
-        </script>
+       // <script src='/app.js'> 
+</script>
+
     </body>
 
 </html>
